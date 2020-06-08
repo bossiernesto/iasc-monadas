@@ -1,7 +1,7 @@
 -- la linea de abajo es para usar el typeclass Num
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
-module MonadExample(dineroPersonajeValidado, construirPersonajeValidado, validarNombre, lichKing, Personaje(..), Validado(..)) where
+module MonadExample(soloSiEstaValidado, dineroPersonajeValidado, construirPersonajeValidado, validarNombre, lichKing, Personaje(..), Validado(..)) where
 
 -- Agregamos un validado para validar el exito o el error de una validacion
 data Validado a = Exito a | Error String deriving (Show, Eq)
@@ -42,8 +42,16 @@ lichKing = construirPersonajeValidado (validarNombre "Arthas Menethil") 1000
 obtenerDineroPersonaje :: Personaje -> Dinero
 obtenerDineroPersonaje unPersonaje = (dinero unPersonaje)
 
--- Ahora queremos obtener 
+-- Ahora queremos obtener el dinero de un personaje validado
 dineroPersonajeValidado :: Validado Personaje -> Validado Dinero
-dineroPersonajeValidado unPersonaje = case unPersonaje of
-    Exito personajeValidado -> Exito (obtenerDineroPersonaje personajeValidado)
+--dineroPersonajeValidado unPersonaje = case unPersonaje of
+--    Exito personajeValidado -> Exito (obtenerDineroPersonaje personajeValidado)
+--    Error mensajeDeError -> Error mensajeDeError
+dineroPersonajeValidado unPersonaje = soloSiEstaValidado obtenerDineroPersonaje unPersonaje
+
+
+-- podemos hacer esto de manera mas generica ahora...
+soloSiEstaValidado :: (a->b) -> Validado a -> Validado b
+soloSiEstaValidado funcion unValor = case unValor of
+    Exito valorValidado -> Exito (funcion valorValidado)
     Error mensajeDeError -> Error mensajeDeError
