@@ -1,7 +1,7 @@
 -- la linea de abajo es para usar el typeclass Num
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
-module MonadExample(construirPersonajeValidado, validarNombre, Personaje(..), Validado(..)) where
+module MonadExample(construirPersonajeValidado, validarNombre, lichKing, Personaje(..), Validado(..)) where
 
 -- Agregamos un validado para validar el exito o el error de una validacion
 data Validado a = Exito a | Error String deriving (Show, Eq)
@@ -30,7 +30,10 @@ validarNombre unNombre | length unNombre < 4 = Error "El nombre es muy corto"
 
 -- La idea seria de poder crear un personaje validado...                      
 construirPersonajeValidado :: Validado String -> Dinero -> Validado Personaje
-construirPersonajeValidado nombreValidado dinero = case nombreValidado of
-    Exito unNombre -> Exito (Personaje unNombre dinero 100)
+construirPersonajeValidado nombreValidado plata = case nombreValidado of
+    Exito unNombre -> Exito (Personaje unNombre plata 100)
     Error mensajeDeError -> Error mensajeDeError
                       
+-- Ahora podemos tener un personaje ya predefinido...
+lichKing :: Validado Personaje
+lichKing = construirPersonajeValidado (validarNombre "Arthas Menethil") 1000    

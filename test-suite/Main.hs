@@ -25,3 +25,7 @@ spec = parallel $ do
     it "Deberia crearme el personaje cuando el nombre tiene la longitud correcta" $ do
         let nombrePersonaje = validarNombre "NicoKnight"
         (construirPersonajeValidado nombrePersonaje 250) == Exito (Personaje "NicoKnight" 250 100)         
+
+    it "Deberia crearme el personaje cuando el nombre tiene la longitud correcta" $ do
+        let nombrePersonaje = "Arthas Menethil"
+        lichKing == Exito (Personaje nombrePersonaje 1000 100)
