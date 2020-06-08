@@ -1,5 +1,5 @@
 module Main where
-import MonadExample
+import MonadExample()
 
 main :: IO ()
 main = undefined
