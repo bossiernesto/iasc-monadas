@@ -29,3 +29,7 @@ spec = parallel $ do
     it "Deberia crearme el personaje cuando el nombre tiene la longitud correcta" $ do
         let nombrePersonaje = "Arthas Menethil"
         lichKing == Exito (Personaje nombrePersonaje 1000 100)
+
+    it "Deberia btener el saldo de un personaje validado" $ do
+        let personajeValidado = lichKing
+        dineroPersonajeValidado personajeValidado == Exito (1000)
